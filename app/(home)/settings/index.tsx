@@ -121,6 +121,36 @@ export default function Settings(): JSX.Element {
         title: t('settings.updateProfile'),
       },
       {
+        onPress: () => {
+          if (Platform.OS !== 'web') {
+            push('/settings/sponsors');
+            return;
+          }
+
+          // showAlert(t('error.notSupportedInWeb'));
+        },
+        startElement: (
+          <Icon
+            name="HeartStraight"
+            size={24}
+            style={css`
+              margin-right: 16px;
+            `}
+          />
+        ),
+        endElement: (
+          <Icon
+            name="CaretRight"
+            size={16}
+            style={css`
+              margin-left: auto;
+            `}
+          />
+        ),
+        // title: t('settings.sponsors'),
+        title: 'Sponsors',
+      },
+      {
         onPress: () => push('/settings/block-users'),
         startElement: (
           <Icon
