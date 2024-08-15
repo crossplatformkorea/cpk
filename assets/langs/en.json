@@ -57,6 +57,7 @@
     "retry": "Retry",
     "score": "Score",
     "selectFromGallery": "Select from gallery",
+    "sponsors": "Sponsors",
     "takeAPhoto": "Take a photo",
     "termsOfService": "Terms of Service",
     "unblock": "Unblock",
@@ -121,6 +122,10 @@
     "yourTags": "Your Tags",
     "yourTagsPlaceholder": "Please enter tags related to you"
   },
+  "points": {
+    "title": "Points",
+    "myPoints": "My Points"
+  },
   "post": {
     "update": {
       "updateFailed": "Update failed!",
@@ -150,7 +155,7 @@
     "darkMode": "Dark Mode",
     "loginInfo": "Login Information",
     "notificationSettings": "Notification Settings",
-    "sponsors": "Sponsors",
+    "points": "Points",
     "termsOfService": "Terms of Service",
     "title": "Settings",
     "updateProfile": "Update Profile"
