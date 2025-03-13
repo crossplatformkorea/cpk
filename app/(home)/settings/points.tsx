@@ -28,6 +28,7 @@ import {useRecoilValue} from 'recoil';
 import {authRecoilState} from '../../../src/recoil/atoms';
 import {Button, Icon, Typography, useCPK} from 'cpk-ui';
 import {showAlert} from '../../../src/utils/alert';
+import useSupabase from '../../../src/hooks/useSupabase';
 
 const productSkus = [
   'cpk.points.200',
@@ -54,16 +55,22 @@ export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [userPoints, setUserPoints] = useState(0);
   const {authId} = useRecoilValue(authRecoilState);
+  const {supabase} = useSupabase();
   const {theme} = useCPK();
 
   useEffect(() => {
     const getUserPoints = async () => {
-      const data = await fetchUserPoints(authId!);
+      if (!supabase) return;
+
+      const data = await fetchUserPoints({
+        authId: authId!,
+        supabase,
+      });
       setUserPoints(data || 0);
     };
 
     authId && getUserPoints();
-  }, [authId]);
+  }, [authId, supabase]);
 
   useEffect(() => {
     const initIAP = async () => {
@@ -109,12 +116,15 @@ export default function App() {
         InteractionManager.runAfterInteractions(async () => {
           const receipt = purchase && purchase.transactionReceipt;
 
+          if (!supabase) return;
+
           if (receipt) {
             const result = await fetchCreatePurchase({
               authId: authId!,
               points: parseInt(purchase?.id.split('.').pop() || '0'),
               productId: purchase?.id || '',
               receipt,
+              supabase,
             });
 
             if (result) {
@@ -136,7 +146,7 @@ export default function App() {
       purchaseErrorSubs.remove();
       endConnection();
     };
-  }, [authId]);
+  }, [authId, supabase]);
 
   return (
     <Container>

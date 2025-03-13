@@ -45,6 +45,7 @@
     "Onesignal",
     "Pressable",
     "Pretendard",
+    "supabase",
     "svgs"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"

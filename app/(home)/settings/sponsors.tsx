@@ -36,8 +36,6 @@ import {RequestSubscriptionAndroidProps} from 'expo-iap/src/types/ExpoIapAndroid
 import {ProductIos} from 'expo-iap/src/types/ExpoIapIos.types';
 
 const productSkus = [
-  'cpk.points.200',
-  'cpk.points.500',
   'cpk.points.1000',
   'cpk.points.5000',
   'cpk.points.10000',

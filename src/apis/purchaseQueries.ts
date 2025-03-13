@@ -1,8 +1,14 @@
 import {getDeviceTypeSync} from 'react-native-device-info';
 import {t} from '../STRINGS';
-import {supabase} from '../supabase';
+import {SupabaseClient} from '@supabase/supabase-js';
 
-export const fetchUserPoints = async (authId: string) => {
+export const fetchUserPoints = async ({
+  authId,
+  supabase,
+}: {
+  authId: string;
+  supabase: SupabaseClient;
+}) => {
   const {data, error: pointsError} = await supabase
     .from('purchases')
     .select('points')
@@ -21,7 +27,13 @@ export const fetchUserPoints = async (authId: string) => {
   return totalPoints;
 };
 
-export const fetchUserPurchases = async (authId: string) => {
+export const fetchUserPurchases = async ({
+  authId,
+  supabase,
+}: {
+  authId: string;
+  supabase: SupabaseClient;
+}) => {
   const {data, error: profileError} = await supabase
     .from('purchases')
     .select('*')
@@ -43,11 +55,13 @@ export const fetchCreatePurchase = async ({
   points,
   productId,
   receipt,
+  supabase,
 }: {
   authId: string;
   points: number;
   productId: string;
   receipt: string;
+  supabase: SupabaseClient;
 }): Promise<boolean> => {
   const {error} = await supabase.from('purchases').insert({
     user_id: authId,
