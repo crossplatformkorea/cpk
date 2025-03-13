@@ -26,7 +26,7 @@ import {
 } from '../../../src/apis/purchaseQueries';
 import {useRecoilValue} from 'recoil';
 import {authRecoilState} from '../../../src/recoil/atoms';
-import {Button, Icon, Typography, useDooboo} from 'dooboo-ui';
+import {Button, Icon, Typography, useCPK} from 'cpk-ui';
 import {showAlert} from '../../../src/utils/alert';
 
 const productSkus = [
@@ -54,7 +54,7 @@ export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [userPoints, setUserPoints] = useState(0);
   const {authId} = useRecoilValue(authRecoilState);
-  const {theme} = useDooboo();
+  const {theme} = useCPK();
 
   useEffect(() => {
     const getUserPoints = async () => {
@@ -81,7 +81,7 @@ export default function App() {
         }
 
         if (isProductIos(a) && isProductIos(b)) {
-          return a.price - b.price;
+          return a.price || 0 - (b.price || 0);
         }
 
         return 0;
@@ -112,8 +112,8 @@ export default function App() {
           if (receipt) {
             const result = await fetchCreatePurchase({
               authId: authId!,
-              points: parseInt(purchase?.productId.split('.').pop() || '0'),
-              productId: purchase?.productId || '',
+              points: parseInt(purchase?.id.split('.').pop() || '0'),
+              productId: purchase?.id || '',
               receipt,
             });
 
@@ -199,7 +199,7 @@ export default function App() {
                     <Button
                       text={item.oneTimePurchaseOfferDetails?.formattedPrice}
                       onPress={() => {
-                        requestPurchase({skus: [item.productId]});
+                        requestPurchase({skus: [item.id]});
                       }}
                     />
                   </View>

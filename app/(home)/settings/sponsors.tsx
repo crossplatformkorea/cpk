@@ -12,13 +12,6 @@ import {
   requestPurchase,
   requestSubscription,
 } from 'expo-iap';
-import type {
-  Product,
-  ProductPurchase,
-  PurchaseError,
-  SubscriptionProduct,
-} from 'expo-iap/build/ExpoIap.types';
-import type {RequestSubscriptionAndroidProps} from 'expo-iap/build/types/ExpoIapAndroid.types';
 import {Stack} from 'expo-router';
 import {useEffect, useState} from 'react';
 import {
@@ -33,6 +26,14 @@ import {
   View,
 } from 'react-native';
 import {t} from '../../../src/STRINGS';
+import {
+  Product,
+  ProductPurchase,
+  PurchaseError,
+  SubscriptionProduct,
+} from 'expo-iap/src/ExpoIap.types';
+import {RequestSubscriptionAndroidProps} from 'expo-iap/src/types/ExpoIapAndroid.types';
+import {ProductIos} from 'expo-iap/src/types/ExpoIapIos.types';
 
 const productSkus = [
   'cpk.points.200',
@@ -53,7 +54,8 @@ const operations = [
   'getProducts',
   'getSubscriptions',
   'endConnection',
-];
+] as const;
+
 type Operation = (typeof operations)[number];
 
 export default function App() {
@@ -70,14 +72,15 @@ export default function App() {
       case 'endConnection':
         if (await endConnection()) {
           setProducts([]);
+          setSubscriptions([]);
           setIsConnected(false);
         }
         break;
 
       case 'getProducts':
         try {
-          const products = await getProducts(productSkus);
-          setProducts(products);
+          const fetchedProducts = await getProducts(productSkus);
+          setProducts(fetchedProducts);
         } catch (error) {
           console.error(error);
         }
@@ -85,8 +88,8 @@ export default function App() {
 
       case 'getSubscriptions':
         try {
-          const subscriptions = await getSubscriptions(subscriptionSkus);
-          setSubscriptions(subscriptions);
+          const fetchedSubscriptions = await getSubscriptions(subscriptionSkus);
+          setSubscriptions(fetchedSubscriptions);
         } catch (error) {
           console.error(error);
         }
@@ -143,19 +146,20 @@ export default function App() {
         ) : (
           <View style={{gap: 12}}>
             <Text style={{fontSize: 20}}>Products</Text>
-            {products.map((item) => {
-              if (isProductAndroid(item)) {
+            {products.map((product) => {
+              if (isProductIos(product)) {
+                const iosProduct: ProductIos = product;
+
                 return (
-                  <View key={item.title} style={{gap: 12}}>
+                  <View key={iosProduct.id} style={{gap: 12}}>
                     <Text>
-                      {item.title} -{' '}
-                      {item.oneTimePurchaseOfferDetails?.formattedPrice}
+                      {iosProduct.displayName} - {iosProduct.displayPrice}
                     </Text>
                     <Button
                       title="Buy"
                       onPress={() => {
                         requestPurchase({
-                          skus: [item.id],
+                          sku: product.id,
                         });
                       }}
                     />
@@ -163,32 +167,38 @@ export default function App() {
                 );
               }
 
-              if (isProductIos(item)) {
+              if (isProductAndroid(product)) {
                 return (
-                  <View key={item.id} style={{gap: 12}}>
+                  <View key={product.title} style={{gap: 12}}>
                     <Text>
-                      {item.displayName} - {item.displayPrice}
+                      {product.title} -{' '}
+                      {product.oneTimePurchaseOfferDetails?.formattedPrice}
                     </Text>
                     <Button
                       title="Buy"
                       onPress={() => {
                         requestPurchase({
-                          sku: item.id,
+                          skus: [product.id],
                         });
                       }}
                     />
                   </View>
                 );
               }
+
+              return null;
             })}
 
             <Text style={{fontSize: 20}}>Subscriptions</Text>
-            {subscriptions.map((item) => {
-              if (isSubscriptionProductAndroid(item)) {
-                return item.subscriptionOfferDetails?.map((offer) => (
-                  <View key={offer.offerId} style={{gap: 12}}>
+            {subscriptions.map((subscription) => {
+              if (isSubscriptionProductAndroid(subscription)) {
+                return subscription.subscriptionOfferDetails?.map((offer) => (
+                  <View
+                    key={offer.offerId ?? subscription.id}
+                    style={{gap: 12}}
+                  >
                     <Text>
-                      {item.title} -{' '}
+                      {subscription.title} -{' '}
                       {offer.pricingPhases.pricingPhaseList
                         .map((ppl) => ppl.billingPeriod)
                         .join(',')}
@@ -197,11 +207,11 @@ export default function App() {
                       title="Subscribe"
                       onPress={() => {
                         requestSubscription({
-                          skus: [item.id],
+                          skus: [subscription.id],
                           ...(offer.offerToken && {
                             subscriptionOffers: [
                               {
-                                sku: item.id,
+                                sku: subscription.id,
                                 offerToken: offer.offerToken,
                               },
                             ],
@@ -213,21 +223,23 @@ export default function App() {
                 ));
               }
 
-              if (isSubscriptionProductIos(item)) {
+              if (isSubscriptionProductIos(subscription)) {
                 return (
-                  <View key={item.id} style={{gap: 12}}>
+                  <View key={subscription.id} style={{gap: 12}}>
                     <Text>
-                      {item.displayName} - {item.displayPrice}
+                      {subscription.displayName} - {subscription.displayPrice}
                     </Text>
                     <Button
                       title="Subscribe"
                       onPress={() => {
-                        requestSubscription({sku: item.id});
+                        requestSubscription({sku: subscription.id});
                       }}
                     />
                   </View>
                 );
               }
+
+              return null;
             })}
           </View>
         )}
@@ -252,7 +264,6 @@ const styles = StyleSheet.create({
   },
   buttonsWrapper: {
     padding: 24,
-
     gap: 8,
   },
   buttonView: {

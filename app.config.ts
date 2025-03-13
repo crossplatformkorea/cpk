@@ -58,6 +58,7 @@ export default ({config}: ConfigContext): ExpoConfig => ({
         ],
       },
     ],
+    'expo-iap',
     [
       'expo-notifications',
       {
