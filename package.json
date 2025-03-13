@@ -61,6 +61,7 @@
     "expo-device": "~7.0.2",
     "expo-file-system": "~18.0.11",
     "expo-font": "~13.0.4",
+    "expo-iap": "2.2.1",
     "expo-image": "~2.0.6",
     "expo-image-picker": "~16.0.6",
     "expo-linear-gradient": "~14.0.2",

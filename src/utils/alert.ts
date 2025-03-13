@@ -1,4 +1,5 @@
 import {Alert, Platform} from 'react-native';
+import {t} from '../STRINGS';
 
 export const showAlert = (
   message: string,
@@ -22,7 +23,7 @@ export const showAlert = (
 
   Alert.alert('', parsedMessage, [
     {
-      text: '확인',
+      text: t('common.ok'),
       onPress: options?.onPress,
     },
   ]);
@@ -46,13 +47,13 @@ export const showConfirm = async ({
   return await new Promise<boolean>((resolve) => {
     Alert.alert(title, description, [
       {
-        text: '취소',
+        text: t('common.cancel'),
         onPress: () => {
           resolve(false);
         },
       },
       {
-        text: '확인',
+        text: t('common.ok'),
         onPress: () => {
           resolve(true);
         },

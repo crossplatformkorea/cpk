@@ -63,8 +63,26 @@ model User {
   followers           Follow[]
   followings          Follow[]       @relation("Following")
   pushTokens          PushToken[]
+  purchases           Purchase[]
 
   @@map("users")
+}
+
+model Purchase {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  points    Int?     @default(0)
+  receipt   String
+  productId String   @map("product_id")
+  device    String?
+  refunded  Boolean? @default(false)
+
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @default(now()) @updatedAt @map("updated_at")
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id") @db.Uuid
+
+  @@map("purchases")
 }
 
 model PushToken {

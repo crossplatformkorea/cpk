@@ -38,7 +38,7 @@ export default ({config}: ConfigContext): ExpoConfig => ({
       'expo-build-properties',
       {
         // https://github.com/software-mansion/react-native-screens/issues/2219
-        ios: {newArchEnabled: true},
+        ios: {newArchEnabled: true, deploymentTarget: '15.1'},
         android: {newArchEnabled: true},
       },
     ],
@@ -58,6 +58,7 @@ export default ({config}: ConfigContext): ExpoConfig => ({
         ],
       },
     ],
+    'expo-iap',
     [
       'expo-notifications',
       {

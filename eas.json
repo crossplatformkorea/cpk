@@ -24,13 +24,10 @@
       }
     },
     "production": {
-<<<<<<< Updated upstream
-=======
       "env": {
         "ENVIRONMENT": "production"
       },
       "autoIncrement": true,
->>>>>>> Stashed changes
       "channel": "production",
       "cache": {
         "disabled": true
