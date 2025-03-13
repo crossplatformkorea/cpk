@@ -123,8 +123,8 @@
     "yourTagsPlaceholder": "나와 관련된 태그들을 입력하세요"
   },
   "points": {
-    "title": "포인트",
-    "myPoints": "나의 포인트"
+    "myPoints": "나의 포인트",
+    "title": "포인트"
   },
   "post": {
     "update": {
@@ -156,10 +156,10 @@
     "loginInfo": "로그인 정보",
     "notificationSettings": "알림 설정",
     "points": "포인트",
+    "sponsors": "후원사",
     "termsOfService": "서비스 약관",
     "title": "설정",
-    "updateProfile": "프로필 수정",
-    "sponsors": "후원사"
+    "updateProfile": "프로필 수정"
   },
   "signIn": {
     "continueWithProvider": "{{provider}} 계정으로 시작하기",

@@ -123,8 +123,8 @@
     "yourTagsPlaceholder": "Please enter tags related to you"
   },
   "points": {
-    "title": "Points",
-    "myPoints": "My Points"
+    "myPoints": "My Points",
+    "title": "Points"
   },
   "post": {
     "update": {
@@ -156,10 +156,10 @@
     "loginInfo": "Login Information",
     "notificationSettings": "Notification Settings",
     "points": "Points",
+    "sponsors": "Sponsors",
     "termsOfService": "Terms of Service",
     "title": "Settings",
-    "updateProfile": "Update Profile",
-    "sponsors": "Sponsors"
+    "updateProfile": "Update Profile"
   },
   "signIn": {
     "continueWithProvider": "Continue with {{provider}}",
