@@ -155,7 +155,7 @@ export default function App() {
                       title="Buy"
                       onPress={() => {
                         requestPurchase({
-                          skus: [item.productId],
+                          skus: [item.id],
                         });
                       }}
                     />
@@ -197,11 +197,11 @@ export default function App() {
                       title="Subscribe"
                       onPress={() => {
                         requestSubscription({
-                          skus: [item.productId],
+                          skus: [item.id],
                           ...(offer.offerToken && {
                             subscriptionOffers: [
                               {
-                                sku: item.productId,
+                                sku: item.id,
                                 offerToken: offer.offerToken,
                               },
                             ],

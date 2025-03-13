@@ -158,7 +158,8 @@
     "points": "Points",
     "termsOfService": "Terms of Service",
     "title": "Settings",
-    "updateProfile": "Update Profile"
+    "updateProfile": "Update Profile",
+    "sponsors": "Sponsors"
   },
   "signIn": {
     "continueWithProvider": "Continue with {{provider}}",
