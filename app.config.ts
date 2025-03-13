@@ -9,7 +9,6 @@ import {expand} from 'dotenv-expand';
 import path from 'path';
 
 const DEEP_LINK_URL = '[firebaseAppId].web.app';
-const buildNumber = 23;
 
 // https://github.com/expo/expo/issues/23727#issuecomment-1651609858
 if (process.env.STAGE) {
@@ -105,7 +104,6 @@ export default ({config}: ConfigContext): ExpoConfig => ({
     ko: './assets/langs/ios/ko.json',
   },
   ios: {
-    buildNumber: buildNumber.toString(),
     bundleIdentifier: 'com.crossplatformkorea.app',
     associatedDomains: [`applinks:${DEEP_LINK_URL}`],
     supportsTablet: true,
@@ -143,7 +141,6 @@ export default ({config}: ConfigContext): ExpoConfig => ({
   android: {
     googleServicesFile: process.env.GOOGLE_SERVICES_ANDROID,
     userInterfaceStyle: 'automatic',
-    versionCode: buildNumber,
     permissions: [
       'RECEIVE_BOOT_COMPLETED',
       'CAMERA',

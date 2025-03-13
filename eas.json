@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 3.8.1"
+    "version": ">= 3.8.1",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -23,6 +24,13 @@
       }
     },
     "production": {
+<<<<<<< Updated upstream
+=======
+      "env": {
+        "ENVIRONMENT": "production"
+      },
+      "autoIncrement": true,
+>>>>>>> Stashed changes
       "channel": "production",
       "cache": {
         "disabled": true
